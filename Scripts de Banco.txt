@@ -1,0 +1,107 @@
+
+CREATE TABLE [dbo].[Clientes](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [nvarchar](max) NOT NULL,
+	[InscricaoEstadual] [nvarchar](12) NULL,
+	[Senha] [nvarchar](max) NOT NULL,
+	[DataCadastro] [datetime2](7) NULL,
+	[FlgAtivo] [bit] NOT NULL,
+	[FlgInscricaoEstadualPF] [bit] NOT NULL,
+	[Email] [nvarchar](150) NULL,
+	[Cpf_Cnpj] [nvarchar](14) NULL,
+	[Genero] [nvarchar](10) NULL,
+	[DataNascimento] [datetime2](7) NULL,
+	[TipoPessoa] [nvarchar](max) NOT NULL,
+	[Telefone] [nvarchar](14) NOT NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+
+CREATE TABLE [dbo].[Usuarios](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Nome] [nvarchar](max) NOT NULL,
+	[Senha] [nvarchar](max) NOT NULL,
+	[Telefone] [nvarchar](11) NOT NULL,
+	[DataCadastro] [datetime2](7) NULL,
+	[FlgAtivo] [bit] NOT NULL,
+	[Email] [nvarchar](max) NULL,
+	[Cpf] [nvarchar](11) NULL,
+	[Genero] [nvarchar](1) NULL,
+	[DataNascimento] [datetime2](7) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+-- Scripts de inserção de usuario -----
+
+  INSERT INTO [Usuarios] (
+    [Nome],
+    [Senha],
+    [Telefone],
+    [DataCadastro],
+    [FlgAtivo],
+    [Email],
+    [Cpf],
+    [Genero],
+    [DataNascimento]
+) VALUES (
+    'Marcos Teste',                                 -- Nome
+    '25f9e794323b453885f5181f1b624d0b',           -- Senha
+    '1174784758',                                 -- Telefone 
+    GETDATE(),                                     -- DataCadastro (data atual)
+    1,                                             -- FlgAtivo
+    'usuariotestelogista@gmail.com',               -- Email
+    '12345678901',                                -- Cpf
+    'M',                                           -- Genero
+    '1985-06-15'                                        -- DataNascimento (deixe NULL se não for fornecido)
+);
+
+-- Scripts de inserção de Clientes -----
+
+INSERT INTO [Clientes] (
+    [Nome],
+    [InscricaoEstadual],
+    [Senha],
+    [DataCadastro],
+    [FlgAtivo],
+    [FlgInscricaoEstadualPF],
+    [Email],
+    [Cpf_Cnpj],
+    [Genero],
+    [DataNascimento],
+    [TipoPessoa],
+    [Telefone]
+) VALUES
+    ('ClienteMarcos Silva', NULL, '25f9e794323b453885f5181f1b624d0b', GETDATE(), 1, 1, 'usuariotestecliente@gmail.com', '12345678901', 'Masculino', '1985-06-15', 'Fisica', '123454777747'),
+    ('Marcos', NULL, '25f9e794323b453885f5181f1b624d0b', '2024-07-29', 0, 1, 'marcos.@gmail.com', '58758465546989', NULL, '2018-01-01', 'Juridica', '123454777747'),
+    ('Everton', NULL, '25f9e794323b453885f5181f1b624d0b', '2024-07-29', 0, 1, 'marcos57@gmail.com', '46717475889', NULL, NULL, 'Juridica', '123454777747'),
+    ('testeema', NULL, '25f9e794323b453885f5181f1b624d0b', '2024-07-29', 0, 0, 'marcos.mv1418@gmail.com', '5875846554698', 'Masculino', '2016-01-01', 'Fisica', '12345477774'),
+    ('LARISSA', '444444444444', '25f9e794323b453885f5181f1b624d0b', '2024-07-29', 0, 0, 'marcos.97@gmail.com', '44444444444', 'Feminino', NULL, 'Juridica', '999999999'),
+    ('Bola', '458789557999', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'marcos.mv1417@gmail.com', '58758465546988', NULL, NULL, 'Juridica', '12345477774'),
+    ('teste', NULL, '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'marcos.mv14478@gmail.com', '46717445887', 'Masculino', '2024-07-18', 'Fisica', '12345477774'),
+    ('Ana Silva', '123456789012', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 1, 'ana.silva@example.com', '12345678701', 'Feminino', '1990-05-15', 'Fisica', '9999999999'),
+    ('Carlos Eduardo', '234567890123', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'carlos.edu@example.com', '23456789012', 'Masculino', '1985-03-22', 'Fisica', '8888888888'),
+    ('Maria Fernandes', '345678901234', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'maria.fern@example.com', '34567490123', 'Feminino', '1992-07-30', 'Fisica', '7777777777'),
+    ('Pedro Almeida', '456787012345', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 1, 'pedro.al@example.com', '45678901234', 'Masculino', '1980-11-19', 'Fisica', '6666666666'),
+    ('João Pereira', '678901234567', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 1, 'joao.p@example.com', '67890123456', 'Masculino', '1988-09-14', 'Fisica', '4444444444'),
+    ('Patricia Lima', '789012345678', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'patricia.l@example.com', '78900234567', 'Feminino', '1983-01-07', 'Fisica', '3333333333'),
+    ('Roberto Costa', '890123456789', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'roberto.c@example.com', '89012345678', 'Masculino', '1978-06-29', 'Fisica', '2222222222'),
+    ('Beatriz Silva', '901234567890', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 1, 'beatriz.s@example.com', '90123456789', 'Feminino', '1997-04-18', 'Fisica', '1111111111'),
+    ('Fernando Oliveira', '012345678901', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'fernando.o@example.com', '01234567890', 'Masculino', '1981-12-25', 'Fisica', '0000000000'),
+    ('Laura Costa', '234567890173', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'laura.c@example.com', '23456749012', 'Feminino', '1996-10-10', 'Fisica', '1234500000'),
+    ('Mariana Souza', '345678801234', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 1, 'mariana.s@example.com', '34567890123', 'Feminino', '1989-08-15', 'Fisica', '2345600000'),
+    ('Ricardo Lopes', '456789012345', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'ricardo.l@example.com', '45678951234', 'Masculino', '1977-11-01', 'Fisica', '3456700000'),
+    ('Aline Almeida', NULL, '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'aline.a@example.com', '56789012345', 'Feminino', '1994-03-23', 'Fisica', '4567800000'),
+    ('Gustavo Mendes', '678911234567', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 1, 0, 'gustavo.m@example.com', '67860123456', 'Masculino', '1982-05-07', 'Fisica', '5678900000'),
+    ('Julia Martins', '789022345678', '25f9e794323b453885f5181f1b624d0b', '2024-07-30', 0, 0, 'julia.m@example.com', '78901234567', 'Feminino', '1991-01-01', 'Fisica', '6789000000');
+
+
+

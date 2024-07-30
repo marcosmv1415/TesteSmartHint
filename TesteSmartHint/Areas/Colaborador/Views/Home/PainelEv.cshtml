@@ -1,0 +1,73 @@
+﻿@model X.PagedList.IPagedList<TesteSmartHint.Models.Verificacao>
+@inject TesteSmartHint.Libraries.Login.LoginUsuario usuario
+@{
+    Layout = "_LayoutEv";
+}
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Ultimas Verificações</h4>
+                @if (TempData["MSG_E"] != null)
+                        {
+                <p class="alert alert-danger">@Html.Raw(TempData["MSG_E"])</p>
+                        }
+            <a id="abrirnota" class="btn btn-primary">Nova Verificação</a>
+            @if (Model.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Estação</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Produto</th>
+                                <th scope="col">Falha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var verificacao in Model)
+                            {
+                                <tr>
+                                    <td>@verificacao.Estacao.Codigo</td>
+                                    <td>@verificacao.Data.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td>@verificacao.Produto.Codigo</td>
+                                    <td>@verificacao.Falha.Codigo</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                @Html.PagedListPager((IPagedList)Model, pagina => Url.Action("PainelEv", new { pagina }))
+            }
+            else
+            {
+                <p>Nenhum Registro Cadastrado!</p>
+            }
+        </div>
+    </div>
+</div>
+<div>
+    
+    <div id="myModal" class="modal">
+        @{Estacao estacao = new  Estacao();
+         }
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Selecione Sua Estação de Verificação</h3>
+            <form asp-action="IniciarEV" class="forms-sample" method="post">
+                <div class="form-group col-md-6">
+                    <label>Estação</label>
+                    <select id="selectEstacoes" asp-for="@estacao.Id" asp-items="@ViewBag.Estacoes" class="form-control" required>
+                        <option value="">Selecione</option>
+                    </select>
+                </div>
+                <div style="display:none;" class="form-group col-md-6">
+                    <label asp-for="@estacao.Codigo"></label>
+                    <input id="nomeEstacao" asp-for="@estacao.Codigo" class="form-control" placeholder="" required>
+                    <span asp-validation-for="@estacao.Codigo" class="text-danger"></span>
+                </div>
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+            </form>
+        </div>
+    </div>
+</div>

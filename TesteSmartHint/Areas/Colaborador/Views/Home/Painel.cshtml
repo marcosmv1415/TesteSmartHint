@@ -1,0 +1,146 @@
+﻿@model TesteSmartHint.Models.ViewModels.IndexViewModel
+@inject TesteSmartHint.Libraries.Login.LoginUsuario usuario
+
+@{
+    var pesquisa = Context.Request.Query["pesquisa"];
+}
+<div class="col-12 grid-margin">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Consulte os seus Clientes cadastrados na sua Loja ou realize o cadastro de novos Clientes</h4>
+            <form method="get">
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="pesquisa">Nome / Razão Social</label>
+                        <input type="text" name="pesquisa" id="pesquisa" value="@pesquisa" class="form-control" placeholder="Digite o Nome do Cliente">
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-primary btnBuscar"><i class="icon-search"></i> Buscar</button>
+                    </div>
+                </div>
+                <a asp-action="CadastroCliente" class="btn btn-primary" style="float: right;">Adicionar Cliente</a>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Clientes</h4>
+            
+            @if (TempData["MSG_S"] != null)
+            {
+                <p class="alert alert-success">@TempData["MSG_S"]</p>
+            }
+            @if (TempData["MSG_E"] != null)
+            {
+                <p class="alert alert-success">@TempData["MSG_E"]</p>
+            }
+            @if (Model.lista != null && Model.lista.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <input type="checkbox" id="selectAll" />
+                                    Bloqueado
+                                </th>
+                                <th scope="col">Nome / Razão Social</th>
+                                <th scope="col">E-mail</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Data Cadastro</th>
+                                <th scope="col">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var cliente in Model.lista)
+                            {
+                                <tr>
+                                    <td>
+                                        <input type="checkbox" class="selectBloqueio" style="" title="Selecionar Todos" data-id="@cliente.Id" @(cliente.FlgAtivo ? "checked" : "") />
+                                    </td>
+                                    <td>@cliente.Nome</td>
+                                    <td>@cliente.Email</td>
+                                    <td>@cliente.Telefone</td>
+                                    <td>@cliente.DataCadastro.ToShortDateString()</td>
+                                    <td>
+                                        <a asp-action="AtualizarCliente" asp-route-id="@cliente.Id" class="btn btn-inverse-info btn-fw">Editar</a>
+                                        <a asp-action="Excluir" asp-route-id="@cliente.Id" class="btn btn-inverse-danger">Excluir</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div id="customToast" class="toast" style="display: none;">
+                    <div class="toast-content">
+                        <span class="toast-message">Operação bem-sucedida!</span>
+                        <button class="toast-close">&times;</button>
+                    </div>
+                </div>
+                <button id="deleteSelected" class="btn btn-danger" title="Bloquear / Desbloquear Todos os Selecionados" style="float: right; margin-top:10px;">Aplicar Bloqueios/Desbloqueios</button>
+                @Html.PagedListPager(Model.lista, pagina => Url.Action("Painel", new { pagina, pesquisa = pesquisa }))
+            }
+            else
+            {
+                <span>Nenhum Registro Cadastrado!</span>
+            }
+        </div>
+    </div>
+</div>
+
+<form id="updateForm" method="post" style="display:none;">
+    @Html.AntiForgeryToken()
+</form>
+<script>
+    document.getElementById('selectAll').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('.selectBloqueio');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
+    document.getElementById('deleteSelected').addEventListener('click', function () {
+        const selectedIds = Array.from(document.querySelectorAll('.selectBloqueio'))
+            .map(checkbox => ({
+                id: parseInt(checkbox.getAttribute('data-id')),
+                isBlocked: checkbox.checked
+            }));
+
+        if (selectedIds.length > 0) {
+            if (confirm('Tem certeza de que deseja aplicar as alterações de bloqueio/desbloqueio nos clientes selecionados?')) {
+                const form = document.getElementById('updateForm');
+                const token = form.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                const formData = new FormData();
+                selectedIds.forEach(item => {
+                    formData.append('ids', item.id);
+                    formData.append('isBlocked', item.isBlocked);
+                });
+
+                fetch('@Url.Action("AplicarAlteracoesBloqueio")', {
+                    method: 'POST',
+                    headers: {
+                        'RequestVerificationToken': token
+                    },
+                    body: formData
+                }).then(response => {
+                    if (response.ok) {
+                        alert('As alterações foram aplicadas com sucesso!');
+                        window.location.reload();
+                    } else {
+                        alert('Ocorreu um erro ao tentar aplicar as alterações nos clientes selecionados.');
+                    }
+                });
+            }
+        } else {
+            alert('Nenhum cliente selecionado.');
+        }
+    });
+</script>
+
+
+
+
+

@@ -1,0 +1,100 @@
+﻿@model TesteSmartHint.Models.Cliente
+@{
+    ViewData["Title"] = "CadastroCliente";
+}
+
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Cadastrar</h4>
+
+            <form class="forms-sample" method="post">
+              <div class="row">
+                <div class="form-group col-sm-4">
+                    <label asp-for="Nome">Nome / Razão Social</label>
+                    <input asp-for="Nome" class="form-control" placeholder="Digite o Nome ou Razão Social" required>
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                    <div class="form-group col-sm-4">
+                    <label asp-for="Email">E-Mail</label>
+                    <input asp-for="Email" class="form-control" placeholder="Digite o e-mail" required>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                    <div class="form-group col-sm-4">
+                    <label asp-for="Telefone">Telefone</label>
+                        <input asp-for="Telefone" class="form-control" placeholder="Digite o Telefone" maxlength="11" required>
+                    <span asp-validation-for="Telefone" class="text-danger"></span>
+                </div>
+              </div>
+              <div class="row">
+                 <div class="form-group col-sm-4">
+                 <label asp-for="TipoPessoa">Tipo de Pessoa</label>
+                     <select asp-for="TipoPessoa" class="form-control">
+                         <option value="">Selecione o tipo de pessoa</option>
+                         <option value="Fisica">Física</option>
+                         <option value="Juridica">Jurídica</option>
+                     </select>
+                  <span asp-validation-for="TipoPessoa" class="text-danger"></span>
+                </div>
+                    <div class="form-group col-sm-4">
+                        <label asp-for="Cpf_Cnpj">CPF / CNPJ</label>
+                        <input asp-for="Cpf_Cnpj" id="Cpf" class="form-control" placeholder="Digite o CPF ou CNPJ" minlength="" maxlength="18">
+                        <span asp-validation-for="Cpf_Cnpj" class="text-danger"></span>
+                </div>
+                <div class="form-group col-sm-4">
+                            <label asp-for="InscricaoEstadual">Inscrição Estadual</label>
+                        <input asp-for="InscricaoEstadual" class="form-control" id="InscricaoEstadual" placeholder="###.###.###-###" maxlength="15" pattern="\d{3}\.\d{3}\.\d{3}-\d{3}" title="Formato: ###.###.###-###">
+                        <span asp-validation-for="InscricaoEstadual" class="text-danger"></span>
+                    </div>
+              </div>
+                <div class="row">
+                    <div class="form-group col-sm-4">
+                    <input asp-for="FlgInscricaoEstadualPF" class="form-check-input" type="checkbox" id="IsentoInscricaoEstadual">
+                    <label class="form-check-label"  for="FlgInscricaoEstadualPF">Isento de Inscrição Estadual</label>
+                    </div>
+                    <div class="form-group col-sm-4">
+                        <input asp-for="FlgAtivo" class="form-check-input" type="checkbox" id="FlgAtivo">
+                        <label class="form-check-label" for="FlgAtivo">Bloquear acesso à Loja</label>
+                    </div>
+                </div>
+                <div id="fisicaFields" style="display: none;">
+                    <div class="row">
+                        <div class="form-group col-sm-4">
+                    <label asp-for="Genero">Gênero</label>
+                    <select asp-for="Genero" class="form-control">
+                        <option value="">Selecione o gênero (opcional)</option>
+                        <option value="Feminino">Feminino</option>
+                        <option value="Masculino">Masculino</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                      <span asp-validation-for="Genero" class="text-danger"></span>
+                    </div>
+                        <div class="form-group col-sm-4">
+                            <label asp-for="DataNascimento">Data de Nascimento</label>
+                            <input asp-for="DataNascimento" type="date" class="form-control">
+                            <span asp-validation-for="DataNascimento" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-sm-6">
+                        <label asp-for="Senha">Senha</label>
+                        <input type="password" asp-for="Senha" id="Senha" class="form-control" placeholder="Digite a Senha" minlength="8" maxlength="15" required>
+                        <span id="SenhaError" class="text-danger"></span>
+                    </div>
+                     <div class="form-group col-sm-6">
+                       <label for="ConfirmacaoSenha">Confirmação de Senha</label>
+                         <input type="password" id="ConfirmacaoSenha" class="form-control" placeholder="Confirme a Senha" minlength="8" maxlength="15" required>
+                         <span id="ConfirmacaoSenhaError" class="text-danger"></span>
+                     </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Adicionar Cliente</button> <a asp-controller="Home" asp-action="Painel" class="btn btn-info">Voltar</a>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+
+

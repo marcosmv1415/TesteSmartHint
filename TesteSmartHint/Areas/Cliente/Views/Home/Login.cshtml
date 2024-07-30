@@ -1,0 +1,60 @@
+﻿@model TesteSmartHint.Models.Cliente
+@{
+
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_Layout1.cshtml";
+}
+
+
+<main role="main">
+    <br />
+    <br />
+
+    <style>
+        @@media (max-width:448px) {
+            .container {
+                margin-left: 0% !important;
+            }
+        }
+    </style>
+    <section class="container loginsection">
+        <aside class="col-sm-7">
+            <div>
+                <a href="/Home/"><img class="loginlogo" src="~/images/LogoBemVindo.png" alt="#" /></a>
+            </div>
+            <div id="login-container">
+
+                <div id="cliente-login" class="card">
+                    <article class="card-body">
+                        <h4 class="card-title mb-4 mt-1">Entrar como Cliente</h4>
+                        @if (ViewData["MSG_S"] != null)
+                         {
+                            <p class="alert alert-success">@ViewData["MSG_S"]</p>
+                         }
+                        @if (ViewData["MSG_E"] != null)
+                        {
+                            <p class="alert alert-danger">@ViewData["MSG_E"]</p>
+                        }
+                        @using (Html.BeginForm("Login", "Home", FormMethod.Post))
+                        {
+                            <div class="form-group">
+                                <label>E-mail</label>
+                                <input asp-for="Email" class="form-control" placeholder="Email" type="text" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Senha</label>
+                                <input asp-for="Senha" class="form-control" placeholder="******" type="password" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Acessar</button>
+                            </div>
+                        }
+                        <p class="text-center">
+                            <a href="@Url.Action("Login", "Home", new { area = "Colaborador" })">Sou um colaborador</a>
+                        </p>
+                    </article>
+                </div>
+            </div>
+        </aside>
+    </section>
+</main>
